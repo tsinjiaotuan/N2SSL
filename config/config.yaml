@@ -1,0 +1,32 @@
+network:
+  name: ssrn
+
+  # Specify a folder containing a pre-trained model to fine-tune. If training from scratch, pass None.
+  # fine_tune_from: 'resnet-18_40-epochs'
+
+  projection_head:
+    mlp_hidden_size: 512
+    projection_size: 128
+
+data_transforms:
+  s: 1
+  input_shape: (103,9,9)
+  target_transforms: ['ResizedCrop','HFlip','HSubFlip','Rotation','PixelErasing','BandErasing']
+  online_transforms: ['ResizedCrop','VSubFlip','VFlip','SubRotation','PixelErasing','BandErasing']
+
+trainer:
+  batch_size: 128
+  m: 0.996 # momentum update
+  checkpoint_interval: 5000
+  max_epochs: 100
+  num_workers: 0
+  gpu: 0
+  n_gpu: 1
+
+optimizer:
+  params:
+    lr: 0.025
+    momentum: 0.9
+    weight_decay: 0.0004
+
+datasets: ['UP', 'IP', 'KSC']
